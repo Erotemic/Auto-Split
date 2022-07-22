@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from typing import TYPE_CHECKING, TypedDict, Union, cast
 
-import keyboard
+# import keyboard
 import toml
 from PyQt6 import QtCore, QtWidgets
 
@@ -127,7 +127,7 @@ def __load_settings_from_file(autosplit: AutoSplit, load_settings_file_path: str
         autosplit.show_error_signal.emit(error_messages.invalid_settings)
         return False
 
-    keyboard.unhook_all()
+    # keyboard.unhook_all()
     if not autosplit.is_auto_controlled:
         for hotkey, hotkey_name in [(hotkey, f"{hotkey}_hotkey") for hotkey in HOTKEYS]:
             if autosplit.settings_dict[hotkey_name]:

@@ -7,6 +7,11 @@ from typing import TYPE_CHECKING, Literal, Optional, Union
 import keyboard
 import pyautogui
 
+try:
+    from pynput import keyboard as pynput_keyboard
+except ImportError:
+    pass
+
 from error_messages import exception_traceback
 from utils import START_AUTO_SPLITTER_TEXT, is_digit
 
@@ -162,11 +167,45 @@ def __get_hotkey_name(names: list[str]):
     return "+".join(clean_names[:-1] + names[-1:])
 
 
+def _read_hotkey2():
+    pressed = None
+    def on_press(key):
+        try:
+            print('press alphanumeric key {0} pressed'.format(
+                key.char))
+        except AttributeError:
+            print('press special key {0} pressed'.format(
+                key))
+
+    def on_release(key):
+        nonlocal pressed
+        pressed = key
+        print('{0} released'.format(key))
+        # Return False to stop listener
+        return False
+
+    # Collect events until released
+    # import time
+    # time.sleep(0.1)
+    with pynput_keyboard.Listener(
+            on_press=on_press,
+            on_release=on_release) as listener:
+        listener.join()
+    print(f'pressed={pressed}')
+    return str(pressed)
+    # # ...or, in a non-blocking fashion:
+    # listener = pynput_keyboard.Listener(
+    #     on_press=on_press,
+    #     on_release=on_release)
+    # listener.start()
+
+
 def __read_hotkey():
     """
     Blocks until a hotkey combination is read.
     Returns the hotkey_name and last KeyboardEvent
     """
+    return _read_hotkey2()
     names: list[str] = []
     while True:
         keyboard_event = keyboard.read_event(True)

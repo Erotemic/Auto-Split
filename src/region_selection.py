@@ -192,8 +192,22 @@ def __get_window_from_point(x: int, y: int) -> tuple[int, str]:
 
         return hwnd, window_text
 
+    # try:
+    #     """
+    #     import pywinctl
+    #     x, y = 1053, 1253
+    #     found_at = pywinctl.getWindowsAt(x, y)
+    #     """
+    found_at = pywinctl.getWindowsAt(x, y)
+    # except Exception:
+    #     raise
+    #     raise Exception(f'Error getting: x, y = {x} {y}')
+
+    if 0:
+        [(w.centerx, w.centery) for w in pywinctl.getAllWindows()]
+
     windows = [window for window
-               in pywinctl.getWindowsAt(x, y)
+               in found_at
                if window.title != GNOME_DESKTOP_ICONS_EXTENSION]
     if len(windows) == 0:
         return 0, ""
