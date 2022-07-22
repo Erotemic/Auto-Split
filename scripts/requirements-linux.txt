@@ -4,7 +4,9 @@
 # pip uninstall -y -r .\scripts\requirements-dev-win32.txt
 #
 # Dependencies
+
 -r requirements.txt
+
 # Linux-only dependencies
-PyWinCtl
-xlib
+PyWinCtl;platform_system=="Linux"
+xlib;platform_system=="Linux"

@@ -6,6 +6,6 @@
 # Dependencies
 -r requirements.txt
 # Windows-only dependencies:
-pygrabber
-winsdk>=v1.0.0b4
+pygrabber;platform_system=="Windows"
+winsdk>=v1.0.0b4;platform_system=="Windows"
 git+https://github.com/ranchen421/D3DShot.git#egg=D3DShot  # https://github.com/SerpentAI/D3DShot/issues/44
